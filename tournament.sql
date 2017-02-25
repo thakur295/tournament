@@ -9,15 +9,6 @@
 
 DROP DATABASE IF EXISTS tournament;
 
--- Drop Tables if exist
-
-DROP TABLE IF EXISTS players CASCADE;
-DROP TABLE IF EXISTS matches CASCADE;
-
---Drop view if exists
-
-DROP VIEW IF EXISTS results CASCADE;
-
 -- Create Database
 
 CREATE DATABASE tournament;
@@ -28,7 +19,7 @@ CREATE DATABASE tournament;
 -- Create Players Table
 
 CREATE TABLE players(
-    p_id serial PRIMARY KEY,
+    id serial PRIMARY KEY,
     p_name text
 );
 
@@ -36,19 +27,18 @@ CREATE TABLE players(
 -- Create Matches Table
 
 CREATE TABLE matches(
-    m_id serial PRIMARY KEY,
+    id serial PRIMARY KEY,
     winner INTEGER,
     loser INTEGER,
-    FOREIGN KEY(winner) REFERENCES players(p_id),
-    FOREIGN KEY(loser) REFERENCES players(p_id)
+    FOREIGN KEY(winner) REFERENCES players(id),
+    FOREIGN KEY(loser) REFERENCES players(id)
 );
 
 
 
 -- Create view results
 
-CREATE VIEW results AS SELECT players.p_id, players.p_name,
-coalesce((SELECT count(winner) from matches where players.p_id = matches.winner),0) as winnings,
-coalesce((SELECT count(*) FROM matches where players.p_id = matches.winner OR players.p_id = matches.loser),0) as matches
-FROM players LEFT JOIN matches ON players.p_id = matches.winner
-GROUP BY players.p_id ORDER BY winnings DESC;
+CREATE VIEW results AS SELECT players.id, players.p_name,
+    coalesce((SELECT count(winner) from matches where players.id = matches.winner),0) as winnings,
+    coalesce((SELECT count(*) FROM matches where players.id = matches.winner OR players.id = matches.loser),0) as matches
+    FROM players LEFT JOIN matches ON players.id = matches.winner GROUP BY players.id ORDER BY winnings DESC;
