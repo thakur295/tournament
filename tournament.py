@@ -14,8 +14,7 @@ def connect():
 def deleteMatches():
     """Remove all the match records from the database."""
 
-    connection = connect()
-    c = connection.cursor()
+    connection, c = connect()
     c.execute("TRUNCATE TABLE matches CASCADE")
     connection.commit()
     connection.close()
@@ -24,8 +23,7 @@ def deleteMatches():
 def deletePlayers():
     """Remove all the player records from the database."""
 
-    connection = connect()
-    c = connection.cursor()
+    connection, c = connect()
     c.execute("TRUNCATE TABLE players CASCADE")
     connection.commit()
     connection.close()
@@ -34,8 +32,7 @@ def deletePlayers():
 def countPlayers():
     """Returns the number of players currently registered."""
 
-    connection = connect()
-    c = connection.cursor()
+    connection, c = connect()
     c.execute("select count(*) from players")
     count = c.fetchone()[0]
     connection.close()
@@ -51,8 +48,7 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-    connection = connect()
-    c = connection.cursor()
+    connection, c = connect()
     query = "INSERT INTO players(p_name) VALUES(%s)"
     c.execute(query, (name, ))
     connection.commit()
@@ -73,8 +69,7 @@ def playerStandings():
         matches: the number of matches the player has played
     """
 
-    connection = connect()
-    c = connection.cursor()
+    connection, c = connect()
     c.execute("select * from results")
     results = c.fetchall()
     connection.close()
@@ -89,8 +84,7 @@ def reportMatch(winner, loser):
       loser:  the id number of the player who lost
     """
 
-    connection = connect()
-    c = connection.cursor()
+    connection, c = connect()
     query = "INSERT INTO matches(winner, loser) VALUES(%s, %s)"
     params = (winner, loser, )
     c.execute(query, params)
