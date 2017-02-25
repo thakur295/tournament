@@ -7,6 +7,7 @@ Developing a database schema to store the game matches between players. Python c
 * tournament.py : This file includes the basic functions required to evaluate and find the winner.
 * tournament_test.py : This file Tests all the possible outcomes and raises an exception if conditions are not fulfilled.
 * tournament.sql: This contains all the basic queries required in the project.
+
 ## Installtion
 1. Install Virtual Box from: https://www.virtualbox.org/wiki/Downloads
 2. Install Vagrant from: https://www.vagrantup.com/downloads.html
